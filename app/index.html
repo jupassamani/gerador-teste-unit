@@ -4,11 +4,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-     -->
-    
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -24,44 +19,67 @@
         <div class="primeira-parte">
             <div class="form-group grupo-um mx-3">
                 <label for="metodo">Método</label>
-                <!-- <div class="div-textarea" id="metodo-id" contenteditable="true"></div> -->
-                <!-- <textarea class="form-control div-control color-cadeteblue" id="metodo" autocorrect="off" spellcheck="false" autocapitalize="off"></textarea> -->
                 <div id="editor-metodo"></div>
             </div>
             <div class="form-group grupo-um mx-3">
-                <label for="testes-unitarios">Testes Unitários</label>
-                <!-- <div class="div-textarea" id="testes-unitarios-id"></div> -->
-                <!-- <textarea class="form-control div-control color-salmon" id="testes-unitarios" autocorrect="off" spellcheck="false" autocapitalize="off"></textarea> -->
+                <label for="testes-unitarios">Testes</label>
                 <div id="editor-teste"></div>
             </div>
         </div>
         <div class="segunda-parte">
             <div class="div-gerar-teste">
                 <div class="form-group grupo-dois mx-5">
-                    <select class="form-control" id="linguagem">
+                    <select class="form-control" id="linguagem" onchange="showOptions()">
+                        <option value="React" style="font-weight: 500;">React</option>'
+                        <option value="React TS" style="font-weight: 500;">React TS</option>'
                         <option value="Python 3" style="font-weight: 500;">Python</option>
+                        <option value="Java" style="font-weight: 500;">Java</option>'
                         <option value="CSharp" style="font-weight: 500;">CSharp</option>
                     </select>
                 </div>
-                <div class="form-group grupo-dois mx-5">
-                    <button type="button" id="gerar-teste" class="btn btn-primary mb-2 btn-gerar">
-                        Gerar Teste Unitário
-                    </button>
-                    
-                    <!-- <button class="btn btn-primary" type="button" disabled>
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        Gerar Teste Unitário
-                    </button> -->
-
+                <div class="form-group grupo-dois mx-5" id="java-options" style="display: none;">
+                    <select class="form-control" id="java-options-select">
+                        <option value="Mockito" style="font-weight: 500;">Mockito</option>
+                        <option value="MockMvc" style="font-weight: 500;">MockMvc</option>
+                    </select>
                 </div>
+                <div class="form-group grupo-dois mx-6">
+                    <select class="form-control" id="tipo">
+                        <option value="Testes Unitários" style="font-weight: 500;">Testes Unitários</option>'
+                        <option value="Testes Mutantes" style="font-weight: 500;">Testes Mutantes</option>'
+                    </select>
+                </div>
+                
             </div>
             <div class="div-limpar mx-3">
+                <div class="form-group grupo-dois mx-5">
+                    <button type="button" id="gerar-teste" class="btn btn-primary mb-2 btn-gerar">
+                        Gerar Teste
+                    </button>
+                </div>
+                <div class="form-group grupo-dois mx-5">
+                    <button type="button" id="botao-copiar" class="btn btn-primary mb-2 btn-gerar" disabled>
+                        Copiar
+                    </button>
+                </div>
                 <div class="form-group grupo-dois div-bnt-limpar">
                     <button type="button" id="limpar" class="btn btn-primary mb-2 btn-limpar">Limpar</button>
                 </div>
             </div>
         </div>
     </section>
+    <script>
+        function showOptions() {
+            var selectElement = document.getElementById("linguagem");
+            var selectedValue = selectElement.options[selectElement.selectedIndex].value;
+            var optionsDiv = document.getElementById("java-options");
+            if (selectedValue === "Java") {
+                optionsDiv.style.display = "block";
+            } else {
+                optionsDiv.style.display = "none";
+            }
+        }
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.16.0/ace.js" type="text/javascript" charset="utf-8"></script>
     <script>require('./js/renderer')</script>
 </body>

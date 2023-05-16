@@ -3,7 +3,10 @@ const data = require("../../data.js");
 const gerarTeste = document.querySelector("#gerar-teste");
 const linguagem = document.querySelector("#linguagem");
 const btnLimpar = document.querySelector("#limpar");
+const tipo = document.querySelector("#tipo");
+const javaOption = document.querySelector("#java-options-select");
 const spinner = document.querySelector(".spinner-border");
+var botaoCopiar = document.getElementById('botao-copiar');
 
 var editorMetodo = ace.edit("editor-metodo");
 // editorMetodo.setTheme("ace/theme/monokai");
@@ -26,7 +29,8 @@ gerarTeste.addEventListener('click', function() {
     if (editorMetodo.getValue() != "") {
         this.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;&nbsp;Gerando...';
         this.disabled = true;
-        data.gerarTesteUnitario(linguagem.value, editorMetodo.getValue())
+        var javaOptionValue = javaOption.value ? javaOption.value : ""; // Check if javaOption.value is null and assign an empty value if it is
+        data.gerarTesteUnitario(linguagem.value, editorMetodo.getValue(), tipo.value, javaOptionValue)
             .then((body) => {
                 // bodyJson = JSON.parse(body)
                 console.log('aqui')
@@ -42,7 +46,20 @@ gerarTeste.addEventListener('click', function() {
                 
                     index++;
                 }, 20);
-
+                botaoCopiar.disabled = false;
+                botaoCopiar.addEventListener('click', function() {
+                    // Copiar o conteúdo da resposta para a área de transferência
+                    var respostaTexto = resposta;
+                    navigator.clipboard.writeText(respostaTexto)
+                        .then(function() {
+                            // Copiado com sucesso
+                            console.log('Conteúdo copiado: ' + respostaTexto);
+                        })
+                        .catch(function(error) {
+                            // Ocorreu um erro ao copiar
+                            console.error('Erro ao copiar o conteúdo: ' + error);
+                        });
+                });
                 this.innerHTML = 'Gerar Teste Unitário';
                 this.disabled = false;
             });
@@ -61,5 +78,14 @@ linguagem.addEventListener('change', function() {
     } else if (linguagem.value === "CSharp") {
         editorMetodo.session.setMode("ace/mode/csharp");
         editorTeste.session.setMode("ace/mode/csharp");
+    } else if (linguagem.value === "Java") {
+        editorMetodo.session.setMode("ace/mode/java");
+        editorTeste.session.setMode("ace/mode/java");
+    } else if (linguagem.value === "React") {
+        editorMetodo.session.setMode("ace/mode/javascript");
+        editorTeste.session.setMode("ace/mode/javascript");
+    } else if (linguagem.value === "React TS") {
+        editorMetodo.session.setMode("ace/mode/typescript");
+        editorTeste.session.setMode("ace/mode/typescript");
     }
 });
